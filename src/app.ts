@@ -1,19 +1,19 @@
 export function initApp() {
   const sounds = {
-    summer: new Audio("./assets/sounds/summer.mp3"),
-    rain: new Audio("./assets/sounds/rain.mp3"),
-    winter: new Audio("./assets/sounds/winter.mp3"),
+    summer: new Audio(require("./assets/sounds/summer.mp3")),
+    rain: new Audio(require("./assets/sounds/rain.mp3")),
+    winter: new Audio(require("./assets/sounds/winter.mp3")),
   };
 
   const backgrounds = {
-    summer: "./assets/images/summer-bg.jpg",
-    rain: "./assets/images/rainy-bg.jpg",
-    winter: "./assets/images/winter-bg.jpg",
+    summer: require("./assets/images/summer-bg.jpg"),
+    rain: require("./assets/images/rainy-bg.jpg"),
+    winter: require("./assets/images/winter-bg.jpg"),
   };
 
-  let currentSound = null;
+  let currentSound: HTMLAudioElement | null = null;
 
-  function playSound(sound, background) {
+  function playSound(sound: HTMLAudioElement, background: string) {
     if (currentSound) {
       currentSound.pause();
     }
@@ -26,7 +26,7 @@ export function initApp() {
     document.body.style.backgroundImage = `url(${background})`;
   }
 
-  function setVolume(volume) {
+  function setVolume(volume: number) {
     Object.values(sounds).forEach((sound) => {
       sound.volume = volume;
     });
@@ -36,18 +36,20 @@ export function initApp() {
 
   document
     .getElementById("summerButton")
-    .addEventListener("click", () =>
+    ?.addEventListener("click", () =>
       playSound(sounds.summer, backgrounds.summer)
     );
   document
     .getElementById("rainButton")
-    .addEventListener("click", () => playSound(sounds.rain, backgrounds.rain));
+    ?.addEventListener("click", () => playSound(sounds.rain, backgrounds.rain));
   document
     .getElementById("winterButton")
-    .addEventListener("click", () =>
+    ?.addEventListener("click", () =>
       playSound(sounds.winter, backgrounds.winter)
     );
   document
     .getElementById("volumeControl")
-    .addEventListener("input", (event) => setVolume(event.target.value));
+    ?.addEventListener("input", (event) =>
+      setVolume((event.target as HTMLInputElement).valueAsNumber)
+    );
 }
