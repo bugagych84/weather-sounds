@@ -90,3 +90,21 @@ const posts: Post[] = [
 ];
 
 console.log(normalizeData(posts));
+
+interface IResponse {
+  id: number;
+  email: string;
+}
+
+const COMMENTS_URL = "https://jsonplaceholder.typicode.com/comments";
+
+const getData = async (url: string): Promise<IResponse[]> => {
+  const response = await fetch(url);
+  return response.json();
+};
+
+getData(COMMENTS_URL).then((data) => {
+  data.forEach((item) => {
+    console.log(`ID: ${item.id}, email: ${item.email}`);
+  });
+});
